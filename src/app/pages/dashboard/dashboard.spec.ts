@@ -1,25 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { signal } from '@angular/core';
 import { MarketService } from '../../core/market.service';
 import { MarketState } from '../../core/market.types';
-import { DEFAULT_SETTINGS } from '../../core/settings';
+import { buildMarketState, createFakeMarketService } from '../../core/testing/fake-market-service';
 import { Dashboard } from './dashboard';
 
-function createFakeMarketService(initialState: MarketState) {
-  const stateSignal = signal(initialState);
-  return {
-    state: stateSignal.asReadonly(),
-    pause: vi.fn(),
-    resume: vi.fn(),
-    setState: (next: MarketState) => stateSignal.set(next),
-  };
-}
-
 function buildState(overrides: Partial<MarketState> = {}): MarketState {
-  return {
-    status: 'running',
-    activeRunId: 1,
-    settings: DEFAULT_SETTINGS,
+  return buildMarketState({
     instruments: [
       {
         instrument: 'ALFA',
@@ -38,9 +24,8 @@ function buildState(overrides: Partial<MarketState> = {}): MarketState {
         imbalance: null,
       },
     ],
-    error: null,
     ...overrides,
-  };
+  });
 }
 
 describe('Dashboard', () => {

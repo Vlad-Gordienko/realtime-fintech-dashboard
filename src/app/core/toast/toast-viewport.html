@@ -1,0 +1,13 @@
+<div class="toast-viewport">
+  @for (toast of toasts(); track toast.id) {
+    <div
+      class="toast"
+      [class]="'toast toast--' + toast.type"
+      [attr.role]="toast.type === 'error' ? 'alert' : 'status'"
+      [attr.aria-live]="toast.type === 'error' ? 'assertive' : 'polite'"
+    >
+      <span class="toast__message">{{ toast.message }}</span>
+      <button type="button" class="toast__dismiss" aria-label="Dismiss" (click)="dismiss(toast.id)">×</button>
+    </div>
+  }
+</div>

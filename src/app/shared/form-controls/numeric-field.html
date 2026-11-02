@@ -1,0 +1,19 @@
+<div class="field">
+  <label>
+    <span>
+      {{ label() }}
+      @if (min() !== undefined && max() !== undefined) {
+        <span class="hint">({{ min() }}&ndash;{{ max() }})</span>
+      }
+    </span>
+    <input
+      type="number"
+      [value]="rawValue()"
+      (input)="rawValue.set($any($event.target).value)"
+      (blur)="touch.emit()"
+    />
+  </label>
+  @for (error of errors(); track error.kind) {
+    <p class="field-error">{{ error.message }}</p>
+  }
+</div>

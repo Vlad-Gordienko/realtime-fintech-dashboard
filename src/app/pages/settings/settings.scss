@@ -9,42 +9,12 @@
   max-width: 320px;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-
-  label {
-    font-weight: 600;
-    font-size: 0.875rem;
-  }
-
-  input {
-    padding: 0.4rem 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-}
-
-.hint {
-  font-weight: 400;
-  color: #888;
-  font-size: 0.8rem;
-}
-
-.field-error {
-  color: #d32f2f;
-  font-size: 0.8rem;
-  margin: 0;
-}
-
 button[type='submit'] {
   align-self: flex-start;
   padding: 0.5rem 1.25rem;
   border: none;
-  border-radius: 4px;
-  background: #1a73e8;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -52,35 +22,5 @@ button[type='submit'] {
   &:disabled {
     background: #ccc;
     cursor: not-allowed;
-  }
-}
-
-.toast {
-  position: fixed;
-  top: 5rem;
-  right: 1.5rem;
-  z-index: 100;
-  padding: 0.75rem 1.25rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: white;
-  background: #2e7d32;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  animation: toast-in 0.2s ease-out;
-
-  &.toast--error {
-    background: #d32f2f;
-  }
-}
-
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

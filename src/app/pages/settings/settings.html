@@ -1,51 +1,7 @@
-@if (toast(); as t) {
-  <div class="toast" [class.toast--error]="t.type === 'error'" role="status" aria-live="polite">
-    {{ t.message }}
-  </div>
-}
-
 <form class="settings-form" [formRoot]="form" (submit)="apply()">
-  <div class="field">
-    <label for="instrumentCount">
-      Instrument count <span class="hint">({{ bounds.instrumentCount.min }}&ndash;{{ bounds.instrumentCount.max }})</span>
-    </label>
-    <input
-      id="instrumentCount"
-      type="number"
-      [formField]="form.instrumentCount"
-    />
-    @for (error of form.instrumentCount().errors(); track error.kind) {
-      <p class="field-error">{{ error.message }}</p>
-    }
-  </div>
-
-  <div class="field">
-    <label for="updatesPerBatch">
-      Updates per batch <span class="hint">({{ bounds.updatesPerBatch.min }}&ndash;{{ bounds.updatesPerBatch.max }})</span>
-    </label>
-    <input
-      id="updatesPerBatch"
-      type="number"
-      [formField]="form.updatesPerBatch"
-    />
-    @for (error of form.updatesPerBatch().errors(); track error.kind) {
-      <p class="field-error">{{ error.message }}</p>
-    }
-  </div>
-
-  <div class="field">
-    <label for="batchIntervalMs">
-      Batch interval (ms) <span class="hint">({{ bounds.batchIntervalMs.min }}&ndash;{{ bounds.batchIntervalMs.max }})</span>
-    </label>
-    <input
-      id="batchIntervalMs"
-      type="number"
-      [formField]="form.batchIntervalMs"
-    />
-    @for (error of form.batchIntervalMs().errors(); track error.kind) {
-      <p class="field-error">{{ error.message }}</p>
-    }
-  </div>
+  <numeric-field [formField]="form.instrumentCount" label="Instrument count" />
+  <numeric-field [formField]="form.updatesPerBatch" label="Updates per batch" />
+  <numeric-field [formField]="form.batchIntervalMs" label="Batch interval (ms)" />
 
   <button type="submit" [disabled]="!isValid()">Apply</button>
 </form>

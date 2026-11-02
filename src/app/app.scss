@@ -32,7 +32,7 @@
       }
 
       &.active {
-        color: #1a73e8;
+        color: var(--color-accent);
         font-weight: 600;
       }
     }

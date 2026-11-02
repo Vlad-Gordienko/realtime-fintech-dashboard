@@ -1,0 +1,32 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+  }
+}
+
+.hint {
+  font-weight: 400;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.field-error {
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  margin: 0;
+}

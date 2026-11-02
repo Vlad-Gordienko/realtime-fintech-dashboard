@@ -1,22 +1,21 @@
-import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MarketService } from '../../core/market.service';
 import { DEFAULT_SETTINGS } from '../../core/settings';
 import { MarketState } from '../../core/market.types';
+import { createFakeMarketService } from '../../core/testing/fake-market-service';
+import { ToastService } from '../../core/toast/toast.service';
 import { Settings } from './settings';
 
-function createFakeMarketService() {
-  const stateSignal = signal<MarketState>({
-    status: 'running',
-    activeRunId: 1,
-    settings: DEFAULT_SETTINGS,
-    instruments: [],
-    error: null,
-  });
+function createFakeToastService() {
   return {
-    apply: vi.fn(),
-    state: stateSignal.asReadonly(),
-    setState: (next: MarketState) => stateSignal.set(next),
+    show: vi.fn(),
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+    dismiss: vi.fn(),
+    clear: vi.fn(),
+    toasts: () => [],
   };
 }
 
@@ -24,14 +23,19 @@ describe('Settings', () => {
   let fixture: ComponentFixture<Settings>;
   let component: Settings;
   let fakeMarketService: ReturnType<typeof createFakeMarketService>;
+  let fakeToastService: ReturnType<typeof createFakeToastService>;
   let host: HTMLElement;
 
   beforeEach(async () => {
     fakeMarketService = createFakeMarketService();
+    fakeToastService = createFakeToastService();
 
     await TestBed.configureTestingModule({
       imports: [Settings],
-      providers: [{ provide: MarketService, useValue: fakeMarketService }],
+      providers: [
+        { provide: MarketService, useValue: fakeMarketService },
+        { provide: ToastService, useValue: fakeToastService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Settings);
@@ -222,14 +226,6 @@ describe('Settings', () => {
   });
 
   describe('toast notifications', () => {
-    beforeEach(() => {
-      vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
     function setValidValuesAndApply(): void {
       component.form.instrumentCount().value.set(10);
       component.form.updatesPerBatch().value.set(200);
@@ -240,41 +236,16 @@ describe('Settings', () => {
     }
 
     it('shows no toast initially', () => {
-      expect(component.toast()).toBeNull();
-      expect(host.querySelector('.toast')).toBeNull();
+      expect(fakeToastService.success).not.toHaveBeenCalled();
+      expect(fakeToastService.error).not.toHaveBeenCalled();
     });
 
     it('shows a success toast after a successful Apply', () => {
       setValidValuesAndApply();
 
-      expect(component.toast()).toEqual({
-        type: 'success',
-        message: 'Settings applied — new run started.',
-      });
-      const toast = host.querySelector('.toast');
-      expect(toast).not.toBeNull();
-      expect(toast?.classList.contains('toast--error')).toBe(false);
-      expect(toast?.textContent).toContain('Settings applied — new run started.');
-    });
-
-    it('auto-hides the toast after 3000ms', () => {
-      setValidValuesAndApply();
-
-      vi.advanceTimersByTime(3000);
-      fixture.detectChanges();
-
-      expect(component.toast()).toBeNull();
-      expect(host.querySelector('.toast')).toBeNull();
-    });
-
-    it('keeps the toast visible before 3000ms has elapsed', () => {
-      setValidValuesAndApply();
-
-      vi.advanceTimersByTime(2000);
-      fixture.detectChanges();
-
-      expect(component.toast()).not.toBeNull();
-      expect(host.querySelector('.toast')).not.toBeNull();
+      expect(fakeToastService.success).toHaveBeenCalledTimes(1);
+      expect(fakeToastService.success).toHaveBeenCalledWith('Settings applied — new run started.');
+      expect(fakeToastService.error).not.toHaveBeenCalled();
     });
 
     it('switches to an error toast when the watched run fails', () => {
@@ -289,10 +260,8 @@ describe('Settings', () => {
       });
       fixture.detectChanges();
 
-      expect(component.toast()).toEqual({ type: 'error', message: 'WASM producer aborted' });
-      const toast = host.querySelector('.toast');
-      expect(toast?.classList.contains('toast--error')).toBe(true);
-      expect(toast?.textContent).toContain('WASM producer aborted');
+      expect(fakeToastService.error).toHaveBeenCalledTimes(1);
+      expect(fakeToastService.error).toHaveBeenCalledWith('WASM producer aborted');
     });
 
     it('ignores an error for a different run id', () => {
@@ -307,11 +276,8 @@ describe('Settings', () => {
       });
       fixture.detectChanges();
 
-      fixture.detectChanges();
-
-      expect(host.querySelector('.toast--error')).toBeNull();
-      expect(host.textContent).not.toContain('unrelated failure');
-      expect(host.querySelector('.toast')?.textContent).toContain('Settings applied — new run started.');
+      expect(fakeToastService.error).not.toHaveBeenCalled();
+      expect(fakeToastService.success).toHaveBeenCalledWith('Settings applied — new run started.');
     });
   });
 });
