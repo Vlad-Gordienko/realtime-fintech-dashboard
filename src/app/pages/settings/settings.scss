@@ -5,22 +5,33 @@
 .settings-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
   max-width: 320px;
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 button[type='submit'] {
   align-self: flex-start;
-  padding: 0.5rem 1.25rem;
+  padding: 0.55rem 1.4rem;
   border: none;
   border-radius: var(--radius-sm);
   background: var(--color-accent);
-  color: white;
-  font-weight: 600;
+  color: var(--color-accent-contrast);
+  font-weight: 700;
+  font-size: 0.875rem;
   cursor: pointer;
+  transition: filter 0.15s ease, opacity 0.15s ease;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
 
   &:disabled {
-    background: #ccc;
+    background: var(--color-border-strong);
+    color: var(--color-muted);
     cursor: not-allowed;
   }
 }

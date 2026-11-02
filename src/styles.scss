@@ -1,9 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --color-danger: #d32f2f;
-  --color-danger-bg: #fdecea;
-  --color-muted: #888;
-  --color-accent: #1a73e8;
-  --radius-sm: 4px;
+  /* surfaces */
+  --color-bg: #0b0e11;
+  --color-surface: #11151a;
+  --color-surface-raised: #161b22;
+  --color-border: #22272e;
+  --color-border-strong: #2c333d;
+
+  /* text */
+  --color-text: #e6e9ed;
+  --color-muted: #7b8794;
+
+  /* accents — crypto exchange palette */
+  --color-accent: #00d4aa;
+  --color-accent-contrast: #05110d;
+  --color-up: #0ecb81;
+  --color-down: #f6465d;
+  --color-warning: #f0b90b;
+
+  --color-danger: #f6465d;
+  --color-danger-bg: rgba(246, 70, 93, 0.12);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Roboto Mono", ui-monospace, Menlo, monospace;
+
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }

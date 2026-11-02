@@ -12,28 +12,31 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
+  padding: 0.75rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
   font-weight: 500;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-muted);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   animation: toast-in 0.2s ease-out;
 
   &.toast--success {
-    background: #2e7d32;
+    border-left-color: var(--color-up);
   }
 
   &.toast--error {
-    background: var(--color-danger);
+    border-left-color: var(--color-down);
   }
 
   &.toast--info {
-    background: var(--color-accent);
+    border-left-color: var(--color-accent);
   }
 
   &.toast--warning {
-    background: #ef6c00;
+    border-left-color: var(--color-warning);
   }
 }
 
