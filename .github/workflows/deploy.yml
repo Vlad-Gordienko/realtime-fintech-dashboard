@@ -22,10 +22,19 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            wasm-producer/package-lock.json
 
       - run: npm ci
+
+      - run: npm ci
+        working-directory: wasm-producer
+
+      - run: npm run asbuild
+        working-directory: wasm-producer
 
       - run: npx ng build --configuration production --base-href /realtime-fintech-dashboard/
 
