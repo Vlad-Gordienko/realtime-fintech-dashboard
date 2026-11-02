@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+            wasm-producer/package-lock.json
+
+      - name: Install app dependencies
+        run: npm ci
+
+      - name: Install wasm-producer dependencies
+        run: npm ci
+        working-directory: wasm-producer
+
+      - name: Build WebAssembly module
+        run: npm run asbuild
+        working-directory: wasm-producer
+
+      - name: Type-check (app)
+        run: npx tsc --noEmit -p tsconfig.app.json
+
+      - name: Type-check (worker)
+        run: npx tsc --noEmit -p tsconfig.worker.json
+
+      - name: Build Angular app
+        run: npm run build
+
+      - name: Run tests
+        run: npx ng test --watch=false
+        env:
+          CI: 'true'

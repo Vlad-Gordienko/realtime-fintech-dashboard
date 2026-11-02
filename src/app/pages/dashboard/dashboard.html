@@ -1,0 +1,44 @@
+<section class="dashboard">
+  <div class="status-bar">
+    <span class="status" [class.status--error]="state().status === 'error'">
+      Status: {{ state().status }}
+    </span>
+
+    @if (isLoading()) {
+      <span class="loading">Loading…</span>
+    }
+
+    <button type="button" (click)="togglePause()" [disabled]="!canToggle()">
+      {{ isPaused() ? 'Resume' : 'Pause' }}
+    </button>
+  </div>
+
+  @if (state().error) {
+    <p class="error-message">{{ state().error }}</p>
+  }
+
+  <table>
+    <thead>
+      <tr>
+        <th>Instrument</th>
+        <th>Last Traded Price</th>
+        <th>Bid-Ask Spread</th>
+        <th>Trading Volume</th>
+        <th>VWAP</th>
+        <th>Order-Book Imbalance</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.instrument) {
+        <tr>
+          <td>{{ row.instrument }}</td>
+          <td>{{ row.lastPrice }}</td>
+          <td>{{ row.spread }}</td>
+          <td>{{ row.volume }}</td>
+          <td>{{ row.vwap }}</td>
+          <td>{{ row.imbalance }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

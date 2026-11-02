@@ -1,0 +1,19 @@
+{
+  "targets": {
+    "debug": {
+      "outFile": "../src/wasm/generated/producer.debug.wasm",
+      "textFile": "../src/wasm/generated/producer.debug.wat",
+      "sourceMap": true,
+      "debug": true
+    },
+    "release": {
+      "outFile": "../src/wasm/generated/producer.wasm",
+      "sourceMap": true,
+      "optimize": true,
+      "noAssert": false
+    }
+  },
+  "options": {
+    "exportStart": false
+  }
+}
