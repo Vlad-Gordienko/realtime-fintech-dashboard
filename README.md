@@ -50,6 +50,7 @@ wasm-producer/assembly/  AssemblyScript source (generator, PRNG)
 
 ## Live demo
 
+https://vlad-gordienko.github.io/realtime-fintech-dashboard/
 
 ## CI/CD
 
