@@ -5,7 +5,7 @@ declare const self: DedicatedWorkerGlobalScope;
 
 const runtime = createWorkerRuntime({
   async loadProducer() {
-    const response = await fetch('/wasm/generated/producer.wasm');
+    const response = await fetch(new URL('wasm/generated/producer.wasm', self.location.href));
     const bytes = await response.arrayBuffer();
     return instantiateProducer(bytes);
   },
